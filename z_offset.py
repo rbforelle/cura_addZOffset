@@ -4,13 +4,14 @@ import os
 import re
 import time
 
-def addZOffset(filename,z_offset):
+
+def addZOffset(filename, z_offset):
     # add suffix _modifie to get output file name
     filename_output = os.path.splitext(filename)[0] + "_modifie" + os.path.splitext(filename)[1]
     print "new_file =", filename_output
 
     f = open(filename_output,'w')
-    n = 0
+    n = 0  # edit_line_count
 
     with open(filename, 'r') as file_to_read:
         lines = file_to_read.readlines() # read all lines
@@ -22,7 +23,7 @@ def addZOffset(filename,z_offset):
                 line_new = line.replace(result.group(),"Z"+str(z_value_new))  # replace the Z movement in this line
                 # f.write(";offset=" + str(z_offset) + "\n")
                 f.write(line_new)
-                n+=1  # edit_line_count
+                n+=1
             else:
                 f.write(line)  # if z movement not countained, write directly
     print "edit_line_count =", n
@@ -74,7 +75,7 @@ if __name__ == '__main__':
                     for file_tuple in files_to_process:
                         addZOffset(file_tuple[0], z_offset)
                     files_to_process = []
-                    file_list = checkNewFile("H:/", [])  # init file_list
+                    file_list = checkNewFile(sd_card_path, [])  # init file_list
         except:
             print "no sd card"
             is_init = True
